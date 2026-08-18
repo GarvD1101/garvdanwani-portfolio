@@ -14,12 +14,12 @@ interface Project {
 
 const PROJECTS: Project[] = [
   {
-    title: "BwellCheck - Contactless Physiological Monitoring",
+    title: "rPPG Health - Contactless Physiological Monitoring",
     tag: "Flagship - Computer Vision",
     description:
       "AI-driven contactless physiological monitoring platform using rPPG algorithms (CHROM, POS) with MediaPipe FaceMesh to extract heart rate, respiratory signals, and HRV metrics from standard camera feeds.",
     metric: "~25-30% signal stability improvement",
-    href: "/work/bwellcheck",
+    href: "/work/rppg-health",
   },
   {
     title: "Multi-Provider Real-Time Voice AI Pipeline",

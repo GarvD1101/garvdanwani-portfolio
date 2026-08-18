@@ -208,7 +208,7 @@ export function HeroAndDetour() {
             {/* Lower Section: Paragraph 2 & Focus Tags span full editorial width */}
             <div className="detour-lower-full">
               <p>
-                That detour is why BWell HealthTech works the way it does. He
+                That detour is why Project No. 21 works the way it does. He
                 didn&apos;t just bring machine learning to a founding engineering
                 seat - he brought a builder&apos;s instinct for the whole
                 pipeline: computer vision running rPPG signal extraction, a voice

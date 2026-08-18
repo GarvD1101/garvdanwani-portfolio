@@ -51,7 +51,7 @@ export function ExperienceSection() {
           }
         >
           <h3 className="experience-card__role">AI &amp; ML Engineer</h3>
-          <p className="experience-card__company">BWell HealthTech</p>
+          <p className="experience-card__company">Project No. 21</p>
           <p className="experience-card__meta">
             Full-Time &middot; New Delhi &middot; Jan 2026 - Present &middot; Founding Team (1 of 5)
           </p>

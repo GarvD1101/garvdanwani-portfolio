@@ -20,7 +20,7 @@ export function HeroSection() {
 
           <p className="hero__statement">
             He builds production AI, not proof-of-concepts. One of five founding
-            engineers at BWell HealthTech, a government-incubated health-tech
+            engineers at Project No. 21, a government-incubated health-tech
             startup, where he owns systems end-to-end - from model selection
             and latency optimization to infrastructure and regulatory readiness.
           </p>

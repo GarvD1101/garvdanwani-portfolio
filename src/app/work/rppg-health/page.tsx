@@ -6,12 +6,12 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { RingChart } from "@/components/RingChart";
 
 export const metadata: Metadata = {
-  title: "BwellCheck - Contactless Physiological Monitoring | Garv Danwani",
+  title: "rPPG Health - Contactless Physiological Monitoring | Garv Danwani",
   description:
     "AI-driven contactless physiological monitoring using rPPG to estimate cardiovascular indicators from a standard RGB camera - CDSCO regulatory pathway.",
 };
 
-export default function BwellCheckPage() {
+export default function RppgHealthPage() {
   const vitalsMetrics = [
     { value: "~25-30%", label: "Signal stability gain" },
     { value: "CDSCO", label: "Regulatory pathway" },
@@ -32,7 +32,7 @@ export default function BwellCheckPage() {
         </div>
 
         <h1 className="editorial-hero__title">
-          BwellCheck - Contactless Physiological Monitoring
+          rPPG Health - Contactless Physiological Monitoring
         </h1>
 
         <p className="editorial-hero__subtitle">
@@ -139,14 +139,14 @@ export default function BwellCheckPage() {
             <section aria-labelledby="section-outcome">
               <h3 id="section-outcome">3. Outcome &middot; Validation &amp; Impact</h3>
               <p>
-                BwellCheck transitioned contactless vitals monitoring from an
+                rPPG Health transitioned contactless vitals monitoring from an
                 unstable prototype into a validated clinical pipeline. The
                 enhanced FaceMesh ROI tracking and frequency filtering deliver
                 consistent signal fidelity under real-world ambient conditions.
               </p>
               <p>
                 The platform is actively navigating CDSCO test licencing,
-                providing BWell HealthTech with a clear regulatory moat for
+                providing Project No. 21 with a clear regulatory moat for
                 contactless health telemetry.
               </p>
             </section>

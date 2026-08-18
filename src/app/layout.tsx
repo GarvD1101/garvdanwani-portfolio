@@ -7,7 +7,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Garv Danwani - AI Systems Engineer",
   description:
-    "Portfolio of Garv Danwani, AI Systems Engineer building production AI systems in computer vision, voice AI, and real-time infrastructure at BWell HealthTech.",
+    "Portfolio of Garv Danwani, AI Systems Engineer building production AI systems in computer vision, voice AI, and real-time infrastructure at Project No. 21.",
   openGraph: {
     title: "Garv Danwani - AI Systems Engineer",
     description:

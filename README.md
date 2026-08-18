@@ -4,9 +4,9 @@ This is my personal portfolio, built to showcase the work I actually ship, not a
 
 ## What's here
 
-I'm one of five founding engineers at **BWell HealthTech**, a government-incubated health-tech startup, where I own systems end-to-end — model selection, latency optimization, infrastructure, and regulatory readiness. The projects featured on this site reflect that range:
+I'm one of five founding engineers at a government-incubated health-tech startup — referred to here as **Project No. 21** — where I own systems end-to-end — model selection, latency optimization, infrastructure, and regulatory readiness. The projects featured on this site reflect that range:
 
-- **BwellCheck** — contactless physiological monitoring using rPPG (remote photoplethysmography) to estimate cardiovascular indicators from a standard RGB camera, currently moving through CDSCO regulatory clearance.
+- **rPPG Health** — contactless physiological monitoring using rPPG (remote photoplethysmography) to estimate cardiovascular indicators from a standard RGB camera, currently moving through CDSCO regulatory clearance.
 - **Multi-Provider Real-Time Voice AI Pipeline** — a low-latency, multilingual (Hindi/English/Bhojpuri) conversational pipeline (ASR → NMT → LLM → TTS), streamed over WebRTC.
 - **OmniFlix** — a hybrid recommendation system unifying IMDb, TMDB, and MyAnimeList into one multi-domain dataset.
 - **AI-Powered Personalized Learning System** — predictive modeling for student performance and learning-path recommendations.
