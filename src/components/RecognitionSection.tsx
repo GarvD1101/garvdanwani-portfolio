@@ -49,32 +49,53 @@ export function RecognitionSection() {
         </motion.h2>
       </div>
 
-      <motion.div
-        className="recognition-card"
-        initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={
-          shouldReduceMotion
-            ? { duration: 0 }
-            : { duration: 0.35, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }
-        }
-      >
-        <h3 className="recognition-card__title">B.Tech &middot; Computer Science &amp; Engineering</h3>
-        <p className="recognition-card__institution">
-          Greater Noida Institute of Technology (GNIOT), AKTU &middot; 2022 - 2026
-        </p>
-        <p className="recognition-card__meta">
-          First Division &middot; Final Semester SGPA 8.25 &middot; Data Science Specialization
-        </p>
-        <p className="recognition-card__desc">
-          Selected as a Beta Tester for Sarvam CODE under Sarvam AI&apos;s EPOCH program (2026).
-          Conducted structured multi-session testing of the agentic coding CLI, identifying four
-          reproducible bug classes including two critical trust-affecting failures. Isolated a
-          model-dependent failure through controlled A/B testing and documented reproduction steps,
-          root-cause hypotheses, and fix directions in a structured report for the product team.
-        </p>
-      </motion.div>
+      <div className="recognition-grid">
+        {/* Card 1: Education */}
+        <motion.div
+          className="recognition-card"
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={
+            shouldReduceMotion
+              ? { duration: 0 }
+              : { duration: 0.35, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }
+          }
+        >
+          <h3 className="recognition-card__title">B.Tech &middot; Computer Science &amp; Engineering</h3>
+          <p className="recognition-card__institution">
+            Greater Noida Institute of Technology (GNIOT), AKTU &middot; 2022 - 2026
+          </p>
+          <p className="recognition-card__meta">
+            First Division &middot; Final Semester SGPA 8.25 &middot; Data Science Specialization
+          </p>
+        </motion.div>
+
+        {/* Card 2: Recognition */}
+        <motion.div
+          className="recognition-card"
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={
+            shouldReduceMotion
+              ? { duration: 0 }
+              : { duration: 0.35, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }
+          }
+        >
+          <h3 className="recognition-card__title">Recognition &middot; Sarvam CODE Beta</h3>
+          <p className="recognition-card__meta">
+            Beta Tester &middot; Sarvam AI EPOCH Program (2026)
+          </p>
+          <p className="recognition-card__desc">
+            Selected as a Beta Tester for Sarvam CODE under Sarvam AI&apos;s EPOCH program (2026).
+            Conducted structured multi-session testing of the agentic coding CLI, identifying four
+            reproducible bug classes including two critical trust-affecting failures. Isolated a
+            model-dependent failure through controlled A/B testing and documented reproduction steps,
+            root-cause hypotheses, and fix directions in a structured report for the product team.
+          </p>
+        </motion.div>
+      </div>
     </section>
   );
 }
