@@ -581,7 +581,7 @@ button {
 /* Shared Inner Content */
 .project-card__link {
   display: block;
-  padding: var(--sp-6);
+  padding: clamp(var(--sp-4), 4vw, var(--sp-6));
   text-decoration: none;
   color: inherit;
   width: 100%;
@@ -613,10 +613,13 @@ button {
 
 .project-card__title {
   font-family: var(--ff-display) !important;
-  font-size: var(--text-2xl);
+  font-size: clamp(1.35rem, 4.5vw, var(--text-2xl));
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .project-card__desc {
