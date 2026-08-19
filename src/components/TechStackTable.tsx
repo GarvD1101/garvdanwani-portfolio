@@ -217,121 +217,195 @@ export function TechStackTable() {
 
   return (
     <div className="tech-stack-section">
-      <div className="tech-stack-table-wrapper">
-        <table className="tech-stack-table" role="table" aria-label="Technical Stack and Tooling">
-          <colgroup>
-            <col style={{ width: "28%" }} />
-            <col style={{ width: "52%" }} />
-            <col style={{ width: "20%" }} />
-          </colgroup>
-          <thead role="rowgroup">
-            <tr role="row">
-              <th scope="col" role="columnheader">Tool</th>
-              <th scope="col" role="columnheader">What it&apos;s for</th>
-              <th scope="col" role="columnheader">Flag</th>
-            </tr>
-          </thead>
-          <tbody role="rowgroup">
-            {STACK_GROUPS.map((group, groupIdx) => {
-              // 1-based alternation: 1, 3, 5, 7 = Black wipe; 2, 4, 6, 8 = Saffron wipe
-              const isBlackWipe = groupIdx % 2 === 0;
+      {/* ─── Desktop Table View (>= 640px) ─── */}
+      <div className="tech-stack-desktop">
+        <div className="tech-stack-table-wrapper">
+          <table className="tech-stack-table" role="table" aria-label="Technical Stack and Tooling">
+            <colgroup>
+              <col style={{ width: "28%" }} />
+              <col style={{ width: "52%" }} />
+              <col style={{ width: "20%" }} />
+            </colgroup>
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">Tool</th>
+                <th scope="col" role="columnheader">What it&apos;s for</th>
+                <th scope="col" role="columnheader">Flag</th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup">
+              {STACK_GROUPS.map((group, groupIdx) => {
+                // 1-based alternation: 1, 3, 5, 7 = Black wipe; 2, 4, 6, 8 = Saffron wipe
+                const isBlackWipe = groupIdx % 2 === 0;
 
-              return (
-                <Fragment key={group.category}>
-                  {/* Category Banner Wipe Row */}
-                  <tr className="tech-stack-group-row" role="row">
-                    <td colSpan={3} className="tech-stack-group-cell" role="cell">
-                      <div className="category-wipe-box">
-                        {/* Left-to-right solid color block wipe */}
-                        <motion.div
-                          className={`category-wipe-bg ${
-                            isBlackWipe
-                              ? "category-wipe-bg--black"
-                              : "category-wipe-bg--saffron"
-                          }`}
-                          initial={shouldReduceMotion ? { scaleX: 1 } : { scaleX: 0 }}
-                          whileInView={{ scaleX: 1 }}
-                          viewport={{ once: true, margin: "-60px" }}
-                          transition={
-                            shouldReduceMotion
-                              ? { duration: 0 }
-                              : { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }
-                          }
-                          style={{ transformOrigin: "left" }}
-                          aria-hidden="true"
-                        />
-
-                        <span
-                          className={`category-wipe-title ${
-                            isBlackWipe
-                              ? "category-wipe-title--saffron"
-                              : "category-wipe-title--black"
-                          }`}
-                        >
-                          {group.category}
-                        </span>
-                      </div>
-                    </td>
-                  </tr>
-
-                  {/* Sibling Tool Rows */}
-                  {group.items.map((row, rowIdx) => (
-                    <motion.tr
-                      key={row.tool}
-                      role="row"
-                      initial={
-                        shouldReduceMotion
-                          ? { opacity: 1, y: 0 }
-                          : { opacity: 0, y: 8 }
-                      }
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, margin: "-60px" }}
-                      transition={
-                        shouldReduceMotion
-                          ? { duration: 0 }
-                          : {
-                              duration: 0.28,
-                              delay: 0.15 + rowIdx * 0.04,
-                              ease: [0.25, 0.46, 0.45, 0.94],
+                return (
+                  <Fragment key={group.category}>
+                    {/* Category Banner Wipe Row */}
+                    <tr className="tech-stack-group-row" role="row">
+                      <td colSpan={3} className="tech-stack-group-cell" role="cell">
+                        <div className="category-wipe-box">
+                          {/* Left-to-right solid color block wipe */}
+                          <motion.div
+                            className={`category-wipe-bg ${
+                              isBlackWipe
+                                ? "category-wipe-bg--black"
+                                : "category-wipe-bg--saffron"
+                            }`}
+                            initial={shouldReduceMotion ? { scaleX: 1 } : { scaleX: 0 }}
+                            whileInView={{ scaleX: 1 }}
+                            viewport={{ once: true, margin: "-60px" }}
+                            transition={
+                              shouldReduceMotion
+                                ? { duration: 0 }
+                                : { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }
                             }
-                      }
-                    >
-                      <td className="cell-tool-td" role="cell">
-                        <span className="cell-tool">{row.tool}</span>
+                            style={{ transformOrigin: "left" }}
+                            aria-hidden="true"
+                          />
+
+                          <span
+                            className={`category-wipe-title ${
+                              isBlackWipe
+                                ? "category-wipe-title--saffron"
+                                : "category-wipe-title--black"
+                            }`}
+                          >
+                            {group.category}
+                          </span>
+                        </div>
                       </td>
-                      <td
-                        data-label="What it's for"
-                        className="cell-desc"
-                        role="cell"
+                    </tr>
+
+                    {/* Sibling Tool Rows */}
+                    {group.items.map((row, rowIdx) => (
+                      <motion.tr
+                        key={row.tool}
+                        role="row"
+                        initial={
+                          shouldReduceMotion
+                            ? { opacity: 1, y: 0 }
+                            : { opacity: 0, y: 8 }
+                        }
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-60px" }}
+                        transition={
+                          shouldReduceMotion
+                            ? { duration: 0 }
+                            : {
+                                duration: 0.28,
+                                delay: 0.15 + rowIdx * 0.04,
+                                ease: [0.25, 0.46, 0.45, 0.94],
+                              }
+                        }
                       >
-                        {row.description}
-                      </td>
-                      <td
-                        data-label="Flag"
-                        className="cell-flag"
-                        role="cell"
-                      >
-                        <span
-                          className={`flag-pill ${
-                            row.flag === "Primary tool"
-                              ? "flag-pill--primary"
-                              : row.flag === "In production"
-                              ? "flag-pill--production"
-                              : row.flag === "Comfortable"
-                              ? "flag-pill--comfortable"
-                              : "flag-pill--learning"
-                          }`}
+                        <td className="cell-tool-td" role="cell">
+                          <span className="cell-tool">{row.tool}</span>
+                        </td>
+                        <td
+                          data-label="What it's for"
+                          className="cell-desc"
+                          role="cell"
                         >
-                          {row.flag}
-                        </span>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </Fragment>
-              );
-            })}
-          </tbody>
-        </table>
+                          {row.description}
+                        </td>
+                        <td
+                          data-label="Flag"
+                          className="cell-flag"
+                          role="cell"
+                        >
+                          <span
+                            className={`flag-pill ${
+                              row.flag === "Primary tool"
+                                ? "flag-pill--primary"
+                                : row.flag === "In production"
+                                ? "flag-pill--production"
+                                : row.flag === "Comfortable"
+                                ? "flag-pill--comfortable"
+                                : "flag-pill--learning"
+                            }`}
+                          >
+                            {row.flag}
+                          </span>
+                        </td>
+                      </motion.tr>
+                    ))}
+                  </Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* ─── Mobile Horizontal Scroll View (< 640px) ─── */}
+      <div className="tech-stack-mobile" aria-label="Technical Stack and Tooling">
+        {STACK_GROUPS.map((group, groupIdx) => {
+          const isBlackWipe = groupIdx % 2 === 0;
+
+          return (
+            <div key={group.category} className="tech-stack-mobile-group">
+              {/* Category Header Banner */}
+              <div className="category-wipe-box category-wipe-box--mobile">
+                <motion.div
+                  className={`category-wipe-bg ${
+                    isBlackWipe
+                      ? "category-wipe-bg--black"
+                      : "category-wipe-bg--saffron"
+                  }`}
+                  initial={shouldReduceMotion ? { scaleX: 1 } : { scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={
+                    shouldReduceMotion
+                      ? { duration: 0 }
+                      : { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }
+                  }
+                  style={{ transformOrigin: "left" }}
+                  aria-hidden="true"
+                />
+                <span
+                  className={`category-wipe-title ${
+                    isBlackWipe
+                      ? "category-wipe-title--saffron"
+                      : "category-wipe-title--black"
+                  }`}
+                >
+                  {group.category}
+                </span>
+              </div>
+
+              {/* Horizontal Scroll Track with Visible Scrollbar */}
+              <div
+                className="tech-stack-mobile-track"
+                tabIndex={0}
+                role="region"
+                aria-label={`${group.category} tools`}
+              >
+                {group.items.map((row) => (
+                  <div key={row.tool} className="tech-stack-mobile-card">
+                    <div className="tech-stack-mobile-card__header">
+                      <span className="tech-stack-mobile-card__tool">{row.tool}</span>
+                      <span
+                        className={`flag-pill ${
+                          row.flag === "Primary tool"
+                            ? "flag-pill--primary"
+                            : row.flag === "In production"
+                            ? "flag-pill--production"
+                            : row.flag === "Comfortable"
+                            ? "flag-pill--comfortable"
+                            : "flag-pill--learning"
+                        }`}
+                      >
+                        {row.flag}
+                      </span>
+                    </div>
+                    <p className="tech-stack-mobile-card__desc">{row.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -16,24 +16,24 @@ interface ComparisonPair {
 
 const COMPARISONS: ComparisonPair[] = [
   {
-    title: "LLM Inference Latency (vLLM Qwen3-8B)",
-    metricDelta: "-63% Latency Cut",
-    legacyLabel: "Unoptimized Baseline",
-    legacyValue: "~4 - 8s",
-    legacyPercent: 100,
-    optimizedLabel: "KV-Cache + Continuous Batching",
-    optimizedValue: "~2.1 - 2.3s",
-    optimizedPercent: 35,
-  },
-  {
-    title: "Full Conversational Pipeline (ASR → NMT → LLM → TTS)",
+    title: "Stage 1: Streaming Protocol Migration (ASR → NMT → LLM → TTS)",
     metricDelta: "-48% Pipeline Cut",
-    legacyLabel: "Sequential Rest APIs",
+    legacyLabel: "Sequential REST APIs",
     legacyValue: "~10 - 15s",
     legacyPercent: 100,
     optimizedLabel: "WebSockets + WebRTC Streaming",
     optimizedValue: "~5 - 8s",
-    optimizedPercent: 48,
+    optimizedPercent: 50,
+  },
+  {
+    title: "Stage 2: Infrastructure & Local Model Optimization",
+    metricDelta: "~80% Total Reduction",
+    legacyLabel: "Commercial APIs & Unoptimized Baseline",
+    legacyValue: "~10 - 15s",
+    legacyPercent: 100,
+    optimizedLabel: "Dedicated GPUs + vLLM + Native Tool Routing",
+    optimizedValue: "2.1 - 2.7s",
+    optimizedPercent: 20,
   },
 ];
 

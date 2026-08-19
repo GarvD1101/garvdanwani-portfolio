@@ -26,7 +26,7 @@ const PROJECTS: Project[] = [
     tag: "Voice AI & Real-Time Systems",
     description:
       "Low-latency multilingual conversational pipeline (Hindi, English, Bhojpuri) across faster-whisper, Qwen3-8B/vLLM, and Kokoro TTS with WebRTC streaming and GPU orchestration.",
-    metric: "40%+ pipeline latency reduction",
+    metric: "80%+ latency reduction from baseline",
     href: "/work/voice-ai",
   },
   {

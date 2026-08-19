@@ -8,14 +8,14 @@ import { LatencyComparisonChart } from "@/components/LatencyComparisonChart";
 export const metadata: Metadata = {
   title: "Multi-Provider Real-Time Voice AI Pipeline | Garv Danwani",
   description:
-    "Real-time multilingual voice AI pipeline cutting end-to-end latency by 40%+ across Hindi, English, and Bhojpuri.",
+    "Real-time multilingual voice AI pipeline cutting end-to-end latency by 80%+ from baseline across Hindi, English, and Bhojpuri.",
 };
 
 export default function VoiceAIPage() {
   const vitalsMetrics = [
-    { value: "40%+", label: "Latency reduction" },
-    { value: "~2.1-2.3s", label: "Optimized LLM latency" },
-    { value: "<4s", label: "Target e2e latency" },
+    { value: "2.1-2.7s", label: "Current average" },
+    { value: "sub-4s", label: "Original target" },
+    { value: "~80%", label: "Total reduction from baseline" },
   ];
 
   return (
@@ -60,13 +60,13 @@ export default function VoiceAIPage() {
             </section>
           </ScrollReveal>
 
-          {/* 2. What I built */}
+          {/* 2. What I built - Stage 1 */}
           <ScrollReveal>
             <section aria-labelledby="section-built">
-              <h3 id="section-built">2. What I built &middot; Streaming Architecture &amp; Benchmarks</h3>
+              <h3 id="section-built">Stage 1: Streaming Architecture &amp; Benchmarks</h3>
               <p>
-                Re-engineered the entire conversational loop from batch processing
-                to a chunked bi-directional streaming pipeline:
+                Re-engineered the conversational loop from sequential batch REST calls
+                into a chunked bi-directional streaming pipeline:
               </p>
               <ul>
                 <li>
@@ -81,27 +81,33 @@ export default function VoiceAIPage() {
                   APIs (Bhashini NMT, Sarvam AI, and NVIDIA Riva / NIM microservices).
                 </li>
                 <li>
-                  <strong>LLM Inference Optimization:</strong> Deployed Qwen3-8B on
-                  vLLM with continuous batching and KV-cache optimizations,
-                  dropping LLM inference latency from <strong>~4-8s down to ~2.1-2.3s</strong>.
-                </li>
-                <li>
                   <strong>Multi-Provider Routing:</strong> Built dynamic provider
                   failover and load balancing to eliminate single-point
                   bottlenecks and optimize Time-To-First-Token (TTFT).
-                </li>
-                <li>
-                  <strong>GPU Cloud Infrastructure:</strong> Provisioned scalable GPU
-                  clusters on RunPod and AWS EC2 with custom AMI images and
-                  automated warm-pool scaling.
                 </li>
               </ul>
             </section>
           </ScrollReveal>
 
-          {/* Before → After Latency Readout */}
+          {/* Latency Comparison Chart */}
           <ScrollReveal>
             <LatencyComparisonChart />
+          </ScrollReveal>
+
+          {/* Stage 2: Infrastructure and Model Optimization */}
+          <ScrollReveal>
+            <section aria-labelledby="section-stage-2">
+              <h3 id="section-stage-2">Stage 2: Infrastructure and Model Optimization</h3>
+              <p>
+                Migrated from commercial API dependencies to local open-weight models deployed
+                on dedicated GPU instances (RunPod A100, AWS EC2 with custom AMIs). Combined
+                KV-cache optimisation and continuous batching on vLLM with agentic tool-call
+                routing built directly into the LLM inference layer. This eliminated external
+                API round-trip overhead and gave the pipeline native tool-calling capability
+                without adding latency. Result: average end-to-end latency dropped from 5-8s
+                to 2.1-2.7s, 46% below the original 4s target.
+              </p>
+            </section>
           </ScrollReveal>
 
           {/* 3. Outcome */}
@@ -109,19 +115,19 @@ export default function VoiceAIPage() {
             <section aria-labelledby="section-outcome">
               <h3 id="section-outcome">3. Outcome &middot; Impact &amp; Reliability</h3>
               <p>
-                Cut end-to-end pipeline latency by over <strong>40%</strong>,
-                achieving reliable real-time conversational speeds across Hindi,
-                Bhojpuri, and English. The multi-provider fallback architecture
-                guarantees 99.9% uptime for conversational production workloads.
+                Achieved an <strong>80%+ latency reduction from baseline</strong>,
+                slashing end-to-end response times from ~10-15s down to 2.1-2.7s (46% below
+                the original 4s target). The local open-weight architecture with native
+                agentic tool routing provides natural multilingual conversational flow
+                across Hindi, Bhojpuri, and English with 99.9% production reliability.
               </p>
             </section>
           </ScrollReveal>
 
           <ScrollReveal>
             <PullQuote>
-              Cut end-to-end pipeline latency by over 40% - from ~10-15 seconds
-              to ~5-8 seconds - by resolving inference bottlenecks across the
-              full ASR-to-TTS chain.
+              Cut end-to-end pipeline latency by ~80% from baseline - dropping from ~10-15 seconds
+              to 2.1-2.7s - by eliminating commercial API overhead and optimizing local open-weight inference on dedicated GPU infrastructure.
             </PullQuote>
           </ScrollReveal>
 
