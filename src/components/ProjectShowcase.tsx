@@ -23,10 +23,10 @@ const PROJECTS: Project[] = [
   },
   {
     title: "Multi-Provider Real-Time Voice AI Pipeline",
-    tag: "Voice AI & Real-Time Systems",
+    tag: "Voice AI & Telephony Platform",
     description:
-      "Low-latency multilingual conversational pipeline (Hindi, English, Bhojpuri) across faster-whisper, Qwen3-8B/vLLM, and Kokoro TTS with WebRTC streaming and GPU orchestration.",
-    metric: "80%+ latency reduction from baseline",
+      "Multi-tenant Voice AI + RAG platform answering real phone calls, from knowledge retrieval through booking confirmation.",
+    metric: "80%+ latency reduction · 2.4s avg",
     href: "/work/voice-ai",
   },
   {

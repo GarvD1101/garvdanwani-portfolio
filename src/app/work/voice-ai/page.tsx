@@ -6,16 +6,17 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { LatencyComparisonChart } from "@/components/LatencyComparisonChart";
 
 export const metadata: Metadata = {
-  title: "Multi-Provider Real-Time Voice AI Pipeline | Garv Danwani",
+  title: "Multi-Tenant Real-Time Voice AI + RAG Platform | Garv Danwani",
   description:
-    "Real-time multilingual voice AI pipeline cutting end-to-end latency by 80%+ from baseline across Hindi, English, and Bhojpuri.",
+    "Enterprise multi-tenant Voice AI and RAG platform answering real phone calls, handling document retrieval, real-time agentic bookings, and cutting latency by 80%+.",
 };
 
 export default function VoiceAIPage() {
   const vitalsMetrics = [
-    { value: "2.1-2.7s", label: "Current average" },
-    { value: "sub-4s", label: "Original target" },
-    { value: "~80%", label: "Total reduction from baseline" },
+    { value: "2.4s", label: "Average turn latency (1.5-2.1s best)" },
+    { value: "80%+", label: "Total latency reduction from ~12s" },
+    { value: "Exotel IVR", label: "Real PSTN telephony streaming" },
+    { value: "Multi-tenant", label: "Qdrant RAG + tool execution" },
   ];
 
   return (
@@ -26,15 +27,15 @@ export default function VoiceAIPage() {
           <Link href="/#work" className="editorial-hero__back">
             &larr; Back to Projects
           </Link>
-          <span className="editorial-hero__eyebrow">Voice AI &middot; Real-Time Systems</span>
+          <span className="editorial-hero__eyebrow">Enterprise Voice AI &middot; Telephony &amp; RAG Systems</span>
         </div>
         <h1 className="editorial-hero__title">
-          Multi-Provider Real-Time Voice AI Pipeline
+          Multi-Tenant Real-Time Voice AI + RAG Platform
         </h1>
         <p className="editorial-hero__subtitle">
-          Real-time voice AI pipeline (ASR &rarr; NMT &rarr; LLM &rarr; TTS) for
-          low-latency, multilingual conversational systems across Hindi, English,
-          and Bhojpuri, targeting sub-4-second end-to-end response times.
+          Enterprise voice telephony platform answering real inbound and outbound phone calls,
+          streaming multi-source RAG knowledge retrieval, and executing real-world agentic actions
+          with an 80%+ reduction in end-to-end conversational turn latency.
         </p>
       </header>
 
@@ -46,88 +47,115 @@ export default function VoiceAIPage() {
             <section aria-labelledby="section-overview">
               <h3 id="section-overview">1. Overview</h3>
               <p>
-                Natural conversational voice AI requires sub-second turn-taking
-                latency. In multilingual setups (Hindi, Indian English, Bhojpuri),
-                chaining sequential models for Automatic Speech Recognition (ASR),
-                Neural Machine Translation (NMT), Large Language Model reasoning
-                (LLM), and Text-to-Speech (TTS) compound inference delays.
+                Production voice AI goes far beyond proof-of-concept browser demos. In enterprise
+                telephony, systems must answer real inbound/outbound PSTN phone calls, ingest complex
+                corporate knowledge bases, execute business-critical actions (appointment bookings,
+                CRM updates, confirmation dispatches), and remain sub-second responsive in natural
+                multilingual conversations across Hindi and Indian English.
               </p>
               <p>
-                Unoptimized architectures suffered from 10-15 second end-to-end
-                delays, single-provider rate-limit dependencies, and severe audio
-                buffering artifacts on unstable network connections.
+                Legacy conversational architectures suffered from 9-15s turnaround delays due to
+                sequential REST API hops, fragile commercial provider limits, and lack of real-time
+                observability. This platform re-architected the entire pipeline into a multi-tenant,
+                end-to-end streaming Voice AI + RAG infrastructure running on dedicated GPU instances.
               </p>
             </section>
           </ScrollReveal>
 
-          {/* 2. What I built - Stage 1 */}
+          {/* 2. What I built */}
           <ScrollReveal>
             <section aria-labelledby="section-built">
-              <h3 id="section-built">Stage 1: Streaming Architecture &amp; Benchmarks</h3>
+              <h3 id="section-built">2. Systems Engineered &middot; The Four Subsystems</h3>
               <p>
-                Re-engineered the conversational loop from sequential batch REST calls
-                into a chunked bi-directional streaming pipeline:
+                Architected and deployed four mission-critical subsystems that power real-time conversational phone intelligence:
               </p>
-              <ul>
-                <li>
-                  <strong>Streaming Protocol Layer:</strong> Implemented WebRTC and
-                  full-duplex WebSockets with Silero Voice Activity Detection (VAD)
-                  for instantaneous speech segmentation and barge-in handling.
-                </li>
-                <li>
-                  <strong>Model Benchmarking &amp; Selection:</strong> Conducted
-                  rigorous latency/WER/MOS evaluations comparing open-weight models
-                  (faster-whisper, Kokoro TTS, Qwen3-8B on vLLM) against commercial
-                  APIs (Bhashini NMT, Sarvam AI, and NVIDIA Riva / NIM microservices).
-                </li>
-                <li>
-                  <strong>Multi-Provider Routing:</strong> Built dynamic provider
-                  failover and load balancing to eliminate single-point
-                  bottlenecks and optimize Time-To-First-Token (TTFT).
-                </li>
-              </ul>
+
+              {/* Subsystem 1 */}
+              <div className="editorial-subsystem">
+                <h4 className="editorial-subsystem__title">A. Document Ingestion &amp; Multi-Tenant RAG</h4>
+                <p>
+                  Built a high-throughput multi-format document ingestion pipeline handling web scraping,
+                  standard PDFs, scanned OCR documents, and DOCX/PPTX presentations. Documents are chunked,
+                  embedded via dense BGE embeddings, and indexed into a <strong>Qdrant vector database</strong> with
+                  strict multi-tenant collection isolation (e.g., project-specific healthcare catalogs).
+                  Metadata and collection access policies are managed through a centralized PostgreSQL catalog.
+                </p>
+              </div>
+
+              {/* Subsystem 2 */}
+              <div className="editorial-subsystem">
+                <h4 className="editorial-subsystem__title">B. Real-Time Telephony &amp; Serving Pipeline</h4>
+                <p>
+                  Constructed a full-duplex conversational loop streaming over <strong>Exotel IVR</strong> (8kHz &mu;-law/PCM audio)
+                  and WebRTC/WebSockets:
+                </p>
+                <ul>
+                  <li>
+                    <strong>NVIDIA Riva ASR:</strong> Migrated from faster-whisper (~400ms) to TensorRT-optimized FastConformer models on NVIDIA Riva, slashing first-chunk transcription latency to ~150ms.
+                  </li>
+                  <li>
+                    <strong>IndicTrans2 NMT:</strong> Deployed <code>indictrans2-indic-en-1B</code> for inbound Hindi translation and <code>indictrans2-en-indic-1B</code> for outbound synthesis, backed by Bhashini Cloud API failover routing.
+                  </li>
+                  <li>
+                    <strong>Inference &amp; Tool Routing:</strong> Deployed <strong>Qwen2.5-7B-Instruct-GPTQ-Int4</strong> on vLLM with continuous batching and KV-cache optimizations on AWS EC2 GPU instances via Triton Inference Server.
+                  </li>
+                  <li>
+                    <strong>Agentic Tool Execution:</strong> Built direct tool-choice enforcement and hallucination guardrails. The LLM invokes live clinic booking APIs for real-time scheduling and triggers automated WhatsApp confirmations mid-call with zero added latency.
+                  </li>
+                  <li>
+                    <strong>NVIDIA Riva TTS:</strong> FastPitch and HiFi-GAN neural vocoder generate chunked streaming speech with sub-150ms time-to-first-audio chunk.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Subsystem 3 */}
+              <div className="editorial-subsystem">
+                <h4 className="editorial-subsystem__title">C. Security, Logging &amp; Observability</h4>
+                <p>
+                  Engineered dual-track per-call audio capture and granular PostgreSQL telemetry capturing
+                  session-, turn-, and event-level execution metrics. Integrated automated PII masking
+                  guardrails that sanitize passwords, session cookies, and bearer tokens before payloads
+                  are committed to audit logs.
+                </p>
+              </div>
+
+              {/* Subsystem 4 */}
+              <div className="editorial-subsystem">
+                <h4 className="editorial-subsystem__title">D. Analytics &amp; Automated Diagnostics</h4>
+                <p>
+                  Deployed real-time latency percentile tracking (p50, p95, p99) per pipeline stage.
+                  Built automated diagnostic alerting that detects and isolates specific stage bottlenecks
+                  (ASR vs. LLM TTFT vs. TTS synthesis) on live production dashboards.
+                </p>
+              </div>
             </section>
           </ScrollReveal>
 
-          {/* Latency Comparison Chart */}
+          {/* Latency Evolution 4-Point Progression Chart */}
           <ScrollReveal>
             <LatencyComparisonChart />
-          </ScrollReveal>
-
-          {/* Stage 2: Infrastructure and Model Optimization */}
-          <ScrollReveal>
-            <section aria-labelledby="section-stage-2">
-              <h3 id="section-stage-2">Stage 2: Infrastructure and Model Optimization</h3>
-              <p>
-                Migrated from commercial API dependencies to local open-weight models deployed
-                on dedicated GPU instances (RunPod A100, AWS EC2 with custom AMIs). Combined
-                KV-cache optimisation and continuous batching on vLLM with agentic tool-call
-                routing built directly into the LLM inference layer. This eliminated external
-                API round-trip overhead and gave the pipeline native tool-calling capability
-                without adding latency. Result: average end-to-end latency dropped from 5-8s
-                to 2.1-2.7s, 46% below the original 4s target.
-              </p>
-            </section>
           </ScrollReveal>
 
           {/* 3. Outcome */}
           <ScrollReveal>
             <section aria-labelledby="section-outcome">
-              <h3 id="section-outcome">3. Outcome &middot; Impact &amp; Reliability</h3>
+              <h3 id="section-outcome">3. Outcome &middot; Production Impact</h3>
               <p>
-                Achieved an <strong>80%+ latency reduction from baseline</strong>,
-                slashing end-to-end response times from ~10-15s down to 2.1-2.7s (46% below
-                the original 4s target). The local open-weight architecture with native
-                agentic tool routing provides natural multilingual conversational flow
-                across Hindi, Bhojpuri, and English with 99.9% production reliability.
+                Transitioned the system from a benchmark prototype into an enterprise-ready,
+                multi-tenant Voice AI and RAG platform handling live phone calls. Overall turn latency
+                dropped by over <strong>80% from baseline</strong> (from ~12s down to a <strong>2.4s production average</strong>,
+                with 1.5-2.1s best-case turns).
+              </p>
+              <p>
+                The platform successfully closes the loop from inbound customer voice queries to live
+                knowledge retrieval, confirmed appointment bookings, and automated WhatsApp follow-ups with 99.9% uptime.
               </p>
             </section>
           </ScrollReveal>
 
           <ScrollReveal>
             <PullQuote>
-              Cut end-to-end pipeline latency by ~80% from baseline - dropping from ~10-15 seconds
-              to 2.1-2.7s - by eliminating commercial API overhead and optimizing local open-weight inference on dedicated GPU infrastructure.
+              Cut conversational turn latency by over 80% - from ~12s batch baseline to a 2.4s production average - on live PSTN telephony with native RAG retrieval and real-time agentic booking execution.
             </PullQuote>
           </ScrollReveal>
 
@@ -136,17 +164,19 @@ export default function VoiceAIPage() {
             <div className="editorial-stack">
               <h4 className="editorial-stack__title">Technologies &amp; Tooling</h4>
               <div className="editorial-stack__items">
-                <span className="editorial-stack__item">faster-whisper</span>
-                <span className="editorial-stack__item">Qwen3-8B (vLLM)</span>
-                <span className="editorial-stack__item">Kokoro TTS</span>
+                <span className="editorial-stack__item">NVIDIA Riva SDK (FastConformer &amp; FastPitch)</span>
+                <span className="editorial-stack__item">Qwen2.5-7B-Instruct (vLLM)</span>
+                <span className="editorial-stack__item">IndicTrans2 (1B NMT)</span>
+                <span className="editorial-stack__item">Exotel IVR Telephony</span>
+                <span className="editorial-stack__item">Qdrant Vector Database</span>
+                <span className="editorial-stack__item">BGE Dense Embeddings</span>
+                <span className="editorial-stack__item">Triton Inference Server</span>
+                <span className="editorial-stack__item">AWS EC2 GPU Instances</span>
+                <span className="editorial-stack__item">RunPod GPU Serving</span>
+                <span className="editorial-stack__item">PostgreSQL Telemetry</span>
                 <span className="editorial-stack__item">Silero VAD</span>
-                <span className="editorial-stack__item">Bhashini NMT</span>
-                <span className="editorial-stack__item">Sarvam AI APIs</span>
-                <span className="editorial-stack__item">NVIDIA Riva / NIM</span>
-                <span className="editorial-stack__item">WebRTC</span>
-                <span className="editorial-stack__item">WebSockets</span>
-                <span className="editorial-stack__item">AWS EC2 (Custom AMIs)</span>
-                <span className="editorial-stack__item">RunPod</span>
+                <span className="editorial-stack__item">Bhashini Cloud API</span>
+                <span className="editorial-stack__item">WhatsApp Business API</span>
               </div>
             </div>
           </ScrollReveal>

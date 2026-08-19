@@ -39,18 +39,28 @@ const STACK_GROUPS: StackCategory[] = [
     category: "Voice AI & NLP",
     items: [
       {
-        tool: "faster-whisper",
-        description: "Low-latency Automatic Speech Recognition (ASR)",
+        tool: "NVIDIA Riva Speech SDK",
+        description: "TensorRT FastConformer ASR & sub-150ms FastPitch TTS",
         flag: "Primary tool",
       },
       {
-        tool: "Qwen3-8B (vLLM)",
+        tool: "Qwen2.5-7B (vLLM)",
         description: "LLM reasoning with continuous batching & KV-cache",
         flag: "Primary tool",
       },
       {
-        tool: "Kokoro TTS",
-        description: "High-throughput neural text-to-speech synthesis",
+        tool: "IndicTrans2",
+        description: "Indic neural machine translation (Inbound & Outbound 1B)",
+        flag: "Primary tool",
+      },
+      {
+        tool: "Qdrant Vector DB",
+        description: "Multi-tenant dense embeddings & RAG knowledge search",
+        flag: "Primary tool",
+      },
+      {
+        tool: "Exotel IVR",
+        description: "Real-time PSTN telephony streaming (8kHz µ-law/PCM)",
         flag: "Primary tool",
       },
       {
@@ -59,18 +69,13 @@ const STACK_GROUPS: StackCategory[] = [
         flag: "Primary tool",
       },
       {
-        tool: "Bhashini NMT",
-        description: "Indic neural machine translation (Hindi/Bhojpuri)",
-        flag: "Primary tool",
-      },
-      {
-        tool: "Sarvam AI APIs",
-        description: "Indic voice & speech benchmark comparisons",
+        tool: "Bhashini Cloud API",
+        description: "Fallback Indic translation & benchmark comparisons",
         flag: "Comfortable",
       },
       {
-        tool: "NVIDIA Riva / NIM",
-        description: "Enterprise real-time speech AI microservices",
+        tool: "Sarvam AI APIs",
+        description: "Indic speech benchmark evaluations & testing",
         flag: "Comfortable",
       },
     ],
@@ -170,7 +175,12 @@ const STACK_GROUPS: StackCategory[] = [
     items: [
       {
         tool: "AWS EC2 (Custom AMIs)",
-        description: "Custom GPU compute images for model deployment",
+        description: "Dedicated GPU compute instances for real-time models",
+        flag: "In production",
+      },
+      {
+        tool: "Triton Inference Server",
+        description: "High-throughput concurrent GPU model orchestration",
         flag: "In production",
       },
       {

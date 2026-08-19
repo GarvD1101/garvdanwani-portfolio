@@ -11,17 +11,14 @@ function AnimatedCounter({ value, duration = 1.2 }: { value: string; duration?: 
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
   // Parse numeric prefix/content
-  if (value === "40%+") {
-    return <NumberTicker target={40} suffix="%+" isInView={isInView} shouldReduceMotion={shouldReduceMotion} />;
+  if (value === "80%+") {
+    return <NumberTicker target={80} suffix="%+" isInView={isInView} shouldReduceMotion={shouldReduceMotion} />;
   }
   if (value === "1 of 5") {
     return <NumberTicker target={1} suffix=" of 5" isInView={isInView} shouldReduceMotion={shouldReduceMotion} />;
   }
-  if (value === "<4s") {
-    return <NumberTicker target={4} prefix="<" suffix="s" isInView={isInView} shouldReduceMotion={shouldReduceMotion} />;
-  }
 
-  // Text values (e.g. CDSCO)
+  // Text values (e.g. CDSCO, 2.4s avg)
   return (
     <motion.span
       ref={ref}
@@ -86,10 +83,10 @@ interface MetricItem {
 }
 
 const METRICS: MetricItem[] = [
-  { value: "40%+", label: "Latency reduction", hasRing: true },
+  { value: "80%+", label: "Latency reduction", hasRing: true },
   { value: "1 of 5", label: "Founding engineers" },
   { value: "CDSCO", label: "Regulatory pathway" },
-  { value: "<4s", label: "Target response time" },
+  { value: "2.4s avg", label: "End-to-end response time" },
 ];
 
 export function StatBlock() {
@@ -123,11 +120,11 @@ export function StatBlock() {
                     }
               }
             >
-              {/* Optional Ring Chart accent behind the 40%+ figure ONLY */}
+              {/* Optional Ring Chart accent behind the 80%+ figure ONLY */}
               {metric.hasRing && (
                 <div className="stat-block__ring-bg" aria-hidden="true">
                   <RingChart
-                    percentage={40}
+                    percentage={80}
                     size={88}
                     strokeWidth={5}
                     color="rgba(255, 153, 51, 0.45)"
