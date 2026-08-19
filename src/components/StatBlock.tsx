@@ -86,7 +86,7 @@ const METRICS: MetricItem[] = [
   { value: "80%+", label: "Latency reduction", hasRing: true },
   { value: "1 of 5", label: "Founding engineers" },
   { value: "CDSCO", label: "Regulatory pathway" },
-  { value: "2.4s avg", label: "End-to-end response time" },
+  { value: "avg. 2.4s", label: "End-to-end response time" },
 ];
 
 export function StatBlock() {
