@@ -32,9 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env.local
 
 .agents*
 AGENTS.md
+CLAUDE.md
+portfolio_redesign_technical_blueprint.md
+public/resume.docx
 final-pass-animation.md
 homepage-consolidation.md
 implementation_plan.md

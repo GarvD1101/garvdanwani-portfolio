@@ -1,11 +1,15 @@
-/**
- * Font configuration - centralized here for easy swapping.
- *
- * CSS custom properties (--ff-display, --ff-body, --ff-mono) in globals.css
- * configure Newsreader, IBM Plex Sans, and IBM Plex Mono with Google Fonts CDN.
- */
+import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 
-export const fontDisplay = { variable: "font-display" };
-export const fontBody = { variable: "font-body" };
-export const fontMono = { variable: "font-mono" };
+export const fontSans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
+export const fontMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
+  display: "swap",
+});

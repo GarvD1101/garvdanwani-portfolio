@@ -59,7 +59,7 @@ export function ExperienceSection() {
             Founding team engineer (1 of 5) at a government-incubated health-tech startup.
             Owning end-to-end technical execution across computer vision, contactless
             physiological monitoring (rPPG), low-latency voice AI pipelines over WebRTC,
-            and CDSCO regulatory pathway clearance.
+            and advancing toward the next stage in CDSCO regulatory compliance.
           </p>
         </motion.div>
       </div>

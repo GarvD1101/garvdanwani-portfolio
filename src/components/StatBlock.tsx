@@ -85,7 +85,7 @@ interface MetricItem {
 const METRICS: MetricItem[] = [
   { value: "80%+", label: "Latency reduction", hasRing: true },
   { value: "1 of 5", label: "Founding engineers" },
-  { value: "CDSCO", label: "Regulatory pathway" },
+  { value: "CDSCO", label: "Next stage regulatory" },
   { value: "avg. 2.4s", label: "End-to-end response time" },
 ];
 

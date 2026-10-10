@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { fontDisplay, fontBody, fontMono } from "@/lib/fonts";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
+import { fontSans, fontMono } from "@/lib/fonts";
+import { SidebarNav } from "@/components/layout/SidebarNav";
+import { MainDisplay } from "@/components/layout/MainDisplay";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Garv Danwani - AI Systems Engineer",
+  title: "Garv Danwani // System Telemetry Monitor",
   description:
-    "Portfolio of Garv Danwani, AI Systems Engineer building production AI systems in computer vision, voice AI, and real-time infrastructure at Project No. 21.",
+    "Production Telemetry Dashboard & AI Systems Portfolio of Garv Danwani — Founding Engineer at Project No. 21. Real-time voice AI, computer vision, rPPG vitals, and GPU inference systems.",
   openGraph: {
-    title: "Garv Danwani - AI Systems Engineer",
+    title: "Garv Danwani // System Telemetry Monitor",
     description:
-      "Production AI systems in computer vision, voice AI, and real-time infrastructure.",
+      "Production Telemetry Dashboard: Computer Vision, Real-Time Voice AI, and Inference Infrastructure.",
     type: "website",
   },
 };
@@ -24,13 +24,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-scroll-behavior="smooth"
-      className={`${fontDisplay.variable} ${fontBody.variable} ${fontMono.variable}`}
+      className={`dark ${fontSans.variable} ${fontMono.variable}`}
     >
-      <body>
-        <Nav />
-        <main>{children}</main>
-        <Footer />
+      <body className="bg-black text-white antialiased font-sans overflow-hidden">
+        <div className="flex flex-col md:grid md:grid-cols-[260px_1fr] h-screen w-screen overflow-hidden bg-black text-white">
+          <SidebarNav />
+          <MainDisplay>{children}</MainDisplay>
+        </div>
       </body>
     </html>
   );
