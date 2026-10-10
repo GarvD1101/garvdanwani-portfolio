@@ -4,23 +4,36 @@ import { useState } from "react";
 import Link from "next/link";
 import { sendEmail } from "@/app/actions/sendEmail";
 
-interface FormData {
+interface ContactFormState {
   name: string;
   organization: string;
   email: string;
   contactHandle: string;
-  projectType: string;
+  projectDomains: string[];
+  otherDomainText: string;
   timeline: string;
   budget: string;
   message: string;
 }
 
-const INITIAL_FORM: FormData = {
+interface SubmittedPayload {
+  name: string;
+  organization?: string;
+  email: string;
+  contactHandle?: string;
+  projectType: string;
+  timeline: string;
+  budget?: string;
+  message: string;
+}
+
+const INITIAL_FORM: ContactFormState = {
   name: "",
   organization: "",
   email: "",
   contactHandle: "",
-  projectType: "Real-Time Voice AI Telephony",
+  projectDomains: ["Voice AI & Telephony"],
+  otherDomainText: "",
   timeline: "Immediate (< 2 Weeks)",
   budget: "Open for Discussion",
   message: "",
@@ -33,6 +46,7 @@ const PROJECT_DOMAINS = [
   { id: "rag-systems", label: "Full-Stack AI & RAG", desc: "Qdrant Vector DB, FastAPI, Event Streaming" },
   { id: "founding", label: "Founding / Full-Time Role", desc: "Core Engineering 0-to-1 Leadership" },
   { id: "advisory", label: "Architecture Advisory", desc: "Systems Audit, Code Review & Strategy" },
+  { id: "other", label: "Other", desc: "Custom Architecture, R&D, or Specialized Scope" },
 ];
 
 const TIMELINE_OPTIONS = [
@@ -51,10 +65,27 @@ const BUDGET_OPTIONS = [
 ];
 
 export default function ContactPage() {
-  const [form, setForm] = useState<FormData>(INITIAL_FORM);
+  const [form, setForm] = useState<ContactFormState>(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submittedData, setSubmittedData] = useState<FormData | null>(null);
+  const [submittedData, setSubmittedData] = useState<SubmittedPayload | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const toggleDomain = (domainLabel: string) => {
+    setForm((prev) => {
+      const exists = prev.projectDomains.includes(domainLabel);
+      if (exists) {
+        return {
+          ...prev,
+          projectDomains: prev.projectDomains.filter((d) => d !== domainLabel),
+        };
+      } else {
+        return {
+          ...prev,
+          projectDomains: [...prev.projectDomains, domainLabel],
+        };
+      }
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +99,10 @@ export default function ContactPage() {
       setErrorMessage("Please enter a valid reply email address.");
       return;
     }
+    if (form.projectDomains.length === 0) {
+      setErrorMessage("Please select at least one project domain (or choose 'Other').");
+      return;
+    }
     if (!form.message.trim() || form.message.trim().length < 10) {
       setErrorMessage("Please provide at least a few words describing your project.");
       return;
@@ -76,10 +111,30 @@ export default function ContactPage() {
     setIsSubmitting(true);
 
     try {
-      const result = await sendEmail(form);
+      const formattedDomains = form.projectDomains
+        .map((domain) => {
+          if (domain === "Other" && form.otherDomainText.trim()) {
+            return `Other (${form.otherDomainText.trim()})`;
+          }
+          return domain;
+        })
+        .join(", ");
+
+      const payload: SubmittedPayload = {
+        name: form.name,
+        organization: form.organization,
+        email: form.email,
+        contactHandle: form.contactHandle,
+        projectType: formattedDomains,
+        timeline: form.timeline,
+        budget: form.budget,
+        message: form.message,
+      };
+
+      const result = await sendEmail(payload);
 
       if (result.success) {
-        setSubmittedData({ ...form });
+        setSubmittedData(payload);
       } else {
         setErrorMessage(result.error || "Failed to dispatch transmission packet.");
       }
@@ -91,10 +146,10 @@ export default function ContactPage() {
     }
   };
 
-  const constructMailtoBackup = (data: FormData) => {
+  const constructMailtoBackup = (data: SubmittedPayload) => {
     const subject = encodeURIComponent(`[PROJECT_INQUIRY] ${data.name} // ${data.projectType}`);
     const body = encodeURIComponent(
-      `SENDER: ${data.name}\nORGANIZATION: ${data.organization || "N/A"}\nEMAIL: ${data.email}\nDIRECT COMM: ${data.contactHandle || "N/A"}\n\nPROJECT DOMAIN: ${data.projectType}\nTIMELINE: ${data.timeline}\nBUDGET: ${data.budget}\n\nPROJECT OVERVIEW:\n${data.message}`
+      `SENDER: ${data.name}\nORGANIZATION: ${data.organization || "N/A"}\nEMAIL: ${data.email}\nDIRECT COMM: ${data.contactHandle || "N/A"}\n\nPROJECT DOMAINS: ${data.projectType}\nTIMELINE: ${data.timeline}\nBUDGET: ${data.budget || "N/A"}\n\nPROJECT OVERVIEW:\n${data.message}`
     );
     return `mailto:garvd2005@gmail.com?subject=${subject}&body=${body}`;
   };
@@ -167,11 +222,14 @@ export default function ContactPage() {
               <div>
                 <span className="text-gray-500">REPLY:</span> {submittedData.email}
               </div>
-              <div>
-                <span className="text-gray-500">DOMAIN:</span> {submittedData.projectType}
+              <div className="sm:col-span-2">
+                <span className="text-gray-500">DOMAINS:</span> {submittedData.projectType}
               </div>
               <div>
                 <span className="text-gray-500">TIMELINE:</span> {submittedData.timeline}
+              </div>
+              <div>
+                <span className="text-gray-500">BUDGET:</span> {submittedData.budget || "Open for Discussion"}
               </div>
             </div>
           </div>
@@ -280,17 +338,17 @@ export default function ContactPage() {
             <div className="absolute top-0 right-0 h-2 w-2 border-t border-r border-[#FF7E00]" />
             <div className="text-xs font-bold text-gray-300 border-b border-gray-850 pb-2 flex items-center justify-between">
               <span className="text-[#FF7E00]">// 02_PROJECT_DOMAIN</span>
-              <span className="text-[10px] text-gray-500">[SYSTEM_CLASSIFICATION]</span>
+              <span className="text-[10px] text-gray-500">[SYSTEM_CLASSIFICATION // MULTI_SELECT]</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
               {PROJECT_DOMAINS.map((domain) => {
-                const isSelected = form.projectType === domain.label;
+                const isSelected = form.projectDomains.includes(domain.label);
                 return (
                   <button
                     type="button"
                     key={domain.id}
-                    onClick={() => setForm({ ...form, projectType: domain.label })}
+                    onClick={() => toggleDomain(domain.label)}
                     className={`p-3 text-left border transition-all text-xs flex flex-col justify-between ${
                       isSelected
                         ? "border-[#FF7E00] bg-[#161200] text-white"
@@ -300,16 +358,35 @@ export default function ContactPage() {
                     <div className="flex items-center justify-between mb-1">
                       <span className="font-bold text-[11px]">{domain.label}</span>
                       <span
-                        className={`h-2 w-2 rounded-full ${
-                          isSelected ? "bg-[#FF7E00]" : "bg-gray-800"
+                        className={`h-3 w-3 border flex items-center justify-center text-[9px] font-mono leading-none transition-colors ${
+                          isSelected
+                            ? "border-[#FF7E00] bg-[#FF7E00] text-black font-bold"
+                            : "border-gray-700 bg-transparent text-transparent"
                         }`}
-                      />
+                      >
+                        ✓
+                      </span>
                     </div>
                     <span className="text-[10px] text-gray-500 font-sans">{domain.desc}</span>
                   </button>
                 );
               })}
             </div>
+
+            {form.projectDomains.includes("Other") && (
+              <div className="pt-2 border-t border-gray-850/60 space-y-1.5">
+                <label className="block text-[11px] text-gray-400 uppercase">
+                  Custom Domain / Project Scope Specification <span className="text-[#FF7E00]">(Optional)</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g., Autonomous Agents, Web3 Infra, Edge Hardware, Custom AI..."
+                  value={form.otherDomainText}
+                  onChange={(e) => setForm({ ...form, otherDomainText: e.target.value })}
+                  className="w-full bg-[#030303] border border-gray-800 px-3 py-2 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#FF7E00] transition-colors"
+                />
+              </div>
+            )}
           </div>
 
           {/* 3. Timeline & Budget Parameters */}
