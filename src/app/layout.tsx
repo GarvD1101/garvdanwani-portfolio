@@ -1,18 +1,36 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { fontSans, fontMono } from "@/lib/fonts";
 import { SidebarNav } from "@/components/layout/SidebarNav";
 import { MainDisplay } from "@/components/layout/MainDisplay";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Garv Danwani // System Telemetry Monitor",
+  metadataBase: new URL("https://www.garvdanwani.com"),
+  title: {
+    default: "Garv Danwani | AI Systems Engineer",
+    template: "%s | Garv Danwani",
+  },
   description:
-    "Production Telemetry Dashboard & AI Systems Portfolio of Garv Danwani — Founding Engineer at Project No. 21. Real-time voice AI, computer vision, rPPG vitals, and GPU inference systems.",
+    "AI Systems Engineer building real-time production infrastructure across low-latency Voice AI, rPPG physiological telemetry, and GPU-accelerated inference pipelines.",
+  alternates: {
+    canonical: "./",
+  },
   openGraph: {
-    title: "Garv Danwani // System Telemetry Monitor",
+    title: "Garv Danwani | AI Systems Engineer",
     description:
-      "Production Telemetry Dashboard: Computer Vision, Real-Time Voice AI, and Inference Infrastructure.",
+      "Real-time production infrastructure, low-latency multilingual Voice AI, and computer vision telemetry.",
+    url: "https://www.garvdanwani.com",
+    siteName: "Garv Danwani Engineering Console",
+    locale: "en_US",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Garv Danwani | AI Systems Engineer",
+    description:
+      "AI Systems Engineer building real-time infrastructure that survives 2 AM production loads.",
   },
 };
 
@@ -31,7 +49,10 @@ export default function RootLayout({
           <SidebarNav />
           <MainDisplay>{children}</MainDisplay>
         </div>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
 }
+
