@@ -126,7 +126,7 @@ export function VoiceTelemetryVisualizer() {
 
         <div className="border border-gray-850 bg-[#080808] p-3">
           <div className="text-[10px] text-gray-500 uppercase">TRANSPORT_PROTOCOL</div>
-          <div className="text-sm font-bold text-white mt-1">WebRTC / Exotel SIP</div>
+          <div className="text-sm font-bold text-white mt-1">WebRTC / PSTN SIP</div>
           <div className="text-[9px] text-gray-400 mt-1">Full-duplex 8kHz µ-law</div>
         </div>
 
@@ -192,7 +192,7 @@ export function VoiceTelemetryVisualizer() {
       </div>
 
       <div className="mt-4 pt-3 border-t border-gray-900 flex justify-between items-center text-[10px] text-gray-500">
-        <span>OBSERVABILITY_SOURCE: Exotel PSTN Call Recording &amp; vLLM Tracing</span>
+        <span>OBSERVABILITY_SOURCE: Carrier PSTN Call Recording &amp; vLLM Tracing</span>
         <span className="text-[#FF7E00]">TARGET_SLA: &lt; 1000ms TURNAROUND</span>
       </div>
     </div>

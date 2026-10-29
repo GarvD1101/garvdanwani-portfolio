@@ -35,6 +35,8 @@ yarn-error.log*
 .env.local
 
 .agents*
+*.md
+ANU_INTERVIEW_PREP_SYSTEM_DESIGN_AND_CODE.md
 AGENTS.md
 CLAUDE.md
 portfolio_redesign_technical_blueprint.md

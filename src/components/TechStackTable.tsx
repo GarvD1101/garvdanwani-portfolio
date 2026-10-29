@@ -59,7 +59,7 @@ const STACK_GROUPS: StackCategory[] = [
         flag: "Primary tool",
       },
       {
-        tool: "Exotel IVR",
+        tool: "PSTN Telephony IVR",
         description: "Real-time PSTN telephony streaming (8kHz µ-law/PCM)",
         flag: "Primary tool",
       },

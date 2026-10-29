@@ -77,7 +77,7 @@ export default function Home() {
               label="AVG_VOICE_TURN"
               endValue={2.4}
               unit="s"
-              description="Down from ~12s baseline across Exotel PSTN"
+              description="Down from ~12s baseline across carrier PSTN"
             />
             <MetricBlock
               label="OPTICAL_SAMPLING"

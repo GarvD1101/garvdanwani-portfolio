@@ -18,6 +18,34 @@ export interface TechnicalBreakdown {
   points: string[];
 }
 
+export interface QnARoutingBand {
+  band: string;
+  threshold: string;
+  destination: string;
+  latency: string;
+  description: string;
+}
+
+export interface QnARoutingSpec {
+  overview: string;
+  bands: QnARoutingBand[];
+  safetyOverride: string;
+  intentGate: string;
+}
+
+export interface KeyDesignDecision {
+  title: string;
+  pitch: string;
+  rationale: string;
+}
+
+export interface ProductionChallenge {
+  title: string;
+  scenario: string;
+  rootCause: string;
+  fix: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -35,6 +63,9 @@ export interface Project {
     value: string;
     badge: string;
   }[];
+  qnaRouting?: QnARoutingSpec;
+  designDecisions?: KeyDesignDecision[];
+  productionChallenges?: ProductionChallenge[];
 }
 
 export interface StackItem {
@@ -96,78 +127,195 @@ export const SYSTEM_METADATA = {
 export const PROJECTS: Project[] = [
   {
     slug: "voice-ai",
-    title: "Multi-Tenant Real-Time Voice AI + RAG Telephony Pipeline",
+    title: "Multi-Vertical Multilingual Real-Time Voice AI Telephony Platform (Project 21)",
     status: "PRODUCTION_ACTIVE",
-    statusText: "[PRODUCTION // ACTIVE_TRAFFIC]",
-    category: "Real-Time Telephony & Voice AI",
-    timeframe: "2025 - 2026",
+    statusText: "[PRODUCTION // 4_VERTICALS_LIVE]",
+    category: "Real-Time Telephony & Multi-Vertical Voice AI",
+    timeframe: "2025 - Present",
     summary:
-      "Enterprise voice telephony platform handling real inbound/outbound PSTN calls over Exotel IVR, streaming vector knowledge retrieval with Qdrant, and executing sub-second conversational turns with an 80%+ reduction in end-to-end latency.",
+      "We built Project 21 as a real-time, multilingual conversational voice agent platform engineered for production deployment across multiple industry verticals — healthcare (maternal IVR and hospital appointment booking), hospitality (hotel reservations), corporate health (employee wellness checkups), and real estate (CRM lead capture and site visit scheduling). The platform operates over standard 2G/feature-phone PSTN telephony via dual gateways (PSTN IVR trunks) and WhatsApp API channels, communicating fluidly across 12 Indian languages under a strict sub-2.0s conversational Time-To-First-Audio (TTFA) latency constraint, zero transactional hallucination tolerance, and resilient audio processing for low-bitrate 8kHz carrier streams.",
     metrics: [
-      { label: "AVG_TURN_LATENCY", value: 2.4, unit: "s", description: "Down from ~12s legacy pipeline, 1.5s best case" },
-      { label: "LATENCY_REDUCTION", value: 80, prefix: "-", unit: "%", description: "Aggressive async streaming & TensorRT optimizations" },
-      { label: "FIRST_CHUNK_ASR", value: 150, unit: "ms", description: "NVIDIA Riva FastConformer TensorRT engine" },
-      { label: "CONCURRENT_STREAMS", value: 128, unit: "ch", description: "Full-duplex WebRTC & Exotel telephony trunks" },
+      { label: "TTFA_LATENCY", value: 1.6, unit: "s", description: "Sub-2.0s hard SLA target (1.5s–1.8s achieved across PSTN audio)" },
+      { label: "QNA_DIRECT_BAND", value: 480, unit: "ms", description: "Direct audio return for pre-verified FAQs bypassing LLM & RAG (~450–600ms)" },
+      { label: "INDIC_LANGUAGES", value: 12, unit: "langs", description: "Hindi, Bhojpuri, Bengali, Marathi, Telugu, Tamil, Gujarati, Kannada, etc." },
+      { label: "LIVE_VERTICALS", value: 4, unit: "sectors", description: "Healthcare, Hospitality, Corporate Health, and Real Estate" },
+      { label: "HALLUCINATED_BOOKINGS", value: 0, unit: "errors", description: "Zero fabricated appointments post-completion guard deployment" },
+      { label: "CONCURRENT_CHANNELS", value: 128, unit: "ch", description: "Full-duplex telephony and WebSocket concurrent sessions" },
+      { label: "LATENCY_REDUCTION", value: 80, prefix: "-", unit: "%", description: "Drop from ~12s legacy pipeline to sub-2s streaming turns" },
     ],
     architecture: {
       ingestion: [
-        "Unstructured.io Doc Parsers (PDF/OCR/DOCX)",
-        "Dense BGE-Small/Base Multi-Tenant Embeddings",
-        "Qdrant Vector Cluster (Collection-Isolated)",
-        "PostgreSQL Metadata & ACL Ledger",
+        "Telephony Ingress (Carrier PSTN Dual Gateways)",
+        "Scipy Energy Pre-Filter & Silero Dual-Layer VAD (16kHz window)",
+        "Barge-In Interrupt Controller with WebSocket Buffer Flushing",
+        "Omnichannel Meta WhatsApp API Messaging Integration",
       ],
       inference: [
-        "NVIDIA Riva FastConformer TensorRT ASR (~150ms)",
-        "IndicTrans2 1B (Hindi ↔ English Bidirectional)",
-        "Qwen2.5-7B-Instruct-GPTQ-Int4 (vLLM Engine)",
-        "Continuous Batching & PagedAttention KV-Cache",
-        "FastPitch / Tacotron2 Low-Latency Neural TTS",
+        "STT Provider Factory (NVIDIA Riva FastConformer / Sarvam Saaras:v3)",
+        "Language Detection & 3-Turn Temporal Smoothing (12 Indic Languages)",
+        "Inbound & Outbound NMT (IndicTrans2-1B / Sarvam Translate:v1)",
+        "Single-Token Intent Classifier with Per-Vertical Scopes",
+        "QnA Fast-Path & Semantic Response Cache (Qdrant Cosine)",
+        "Agent Loop with Declarative Flow State Machine (vLLM Qwen2.5-7B)",
       ],
       transport: [
-        "Exotel PSTN Telephony Trunk (8kHz µ-law audio)",
-        "Full-Duplex WebRTC & Fast Binary WebSockets",
-        "FastAPI Async Event Gateway & Health Monitors",
-        "Redis Session Store & Conversation Turn Buffers",
+        "Full-Duplex Telephony WebSockets (8kHz G.711u / 16kHz PCM)",
+        "FastAPI Async Event Gateway & Route Dispatcher",
+        "Redis In-Memory Session Cache & Hysteresis Buffers",
+        "PostgreSQL Flow State Persistence & Recovery Ledger",
       ],
       client: [
-        "LiveKit WebRTC Agent Integration Layer",
-        "Real-Time Telephony Diagnostic Stream Dashboard",
-        "IVR Automated Action Dispatcher (Calendaring/CRM)",
-        "Bhashini Cloud API Automated Failover Router",
+        "Zero-LLM Action Buffers (Pre-localized Audio in 12 Languages)",
+        "Indic Number Verbalizer & Neural TTS (Riva FastPitch / Bulbul:v3)",
+        "PostgreSQL Async Outbox Queue for External CRM Synchronization",
+        "Real-Time Observability & Diagnostic Telemetry SSE Stream",
       ],
     },
     systemLogs: [
-      "[2026-01-14 09:22:10.104] TELEPHONY_INGEST: Exotel PSTN trunk connected (8kHz µ-law audio payload)",
-      "[2026-01-14 09:22:10.252] RIVA_ASR: FastConformer transcribed first chunk in 148ms [LANG: HINDI/HIN_ENG]",
-      "[2026-01-14 09:22:10.364] NMT_TRANSLATE: IndicTrans2-1B translated inbound utterance to EN (112ms)",
-      "[2026-01-14 09:22:10.402] VECTOR_SEARCH: Qdrant retrieved top-3 corpus contexts (score: 0.912, 38ms)",
-      "[2026-01-14 09:22:10.567] VLLM_CORE: Qwen2.5-7B TTFT reached 165ms; first token streamed to TTS buffer",
-      "[2026-01-14 09:22:10.747] TTS_SYNTH: FastPitch generated 24kHz synthesized audio frame (180ms)",
-      "[2026-01-14 09:22:10.748] AUDIO_OUT: Full turn completed in 644ms (Well within 1.5s real-time target)",
-      "[2026-01-14 09:22:11.002] TOOL_DISPATCH: CRM appointment confirmed & WhatsApp notification queued",
+      "[2026-03-04 14:10:01.018] TELEPHONY_INGRESS: Dual carrier trunk connected via PSTN SIP [STREAM: 8kHz G.711u]",
+      "[2026-03-04 14:10:01.122] VAD_ENGINE: Speech detected (prob: 0.89); ambient noise dropped via Scipy pre-filter",
+      "[2026-03-04 14:10:01.270] STT_FACTORY: Provider factory transcribed native audio chunk in 148ms [LANG: BHOJPURI]",
+      "[2026-03-04 14:10:01.385] LANG_DETECTOR: Temporal smoother confirmed Bhojpuri (Hysteresis margin >0.20, N=3)",
+      "[2026-03-04 14:10:01.442] NMT_TRANSLATE: Inbound query normalized to English via NMT provider in 57ms",
+      "[2026-03-04 14:10:01.498] INTENT_CLASSIFIER: Single-token evaluation completed (intent: booking, scope: hospital)",
+      "[2026-03-04 14:10:01.502] QNA_GATE: Intent flagged needs_agent=true; QnA fast-path bypassed directly into agent flow",
+      "[2026-03-04 14:10:01.520] AGENT_FLOW: Declarative state machine advanced to step 'collect' [SLOTS: doctor, patient, date, slot]",
+      "[2026-03-04 14:10:01.525] ACTION_BUFFER: Dispatched pre-localized transition audio in Bhojpuri (0ms LLM latency)",
+      "[2026-03-04 14:10:01.810] TOOL_EXEC: book_appointment returned success; completion message locked verbatim",
+      "[2026-03-04 14:10:01.812] GUARD_CHECK: Two-tier hallucination guard verified valid completion tool execution",
+      "[2026-03-04 14:10:01.940] VERBALIZER_TTS: Number verbalizer normalized confirmation ID; audio stream queued to egress",
+      "[2026-03-04 14:10:01.945] ASYNC_OUTBOX: Queued transactional record to PostgreSQL crm_push_queue in 2ms",
+      "[2026-03-04 14:10:02.110] EGRESS_STREAM: First audio frame delivered to caller handset (TTFA: 1.62s) // TURN_COMPLETE",
     ],
     technicalBreakdown: [
       {
-        heading: "1. Elimination of Sequential REST Latency",
+        heading: "1. High-Concurrency Telephony Ingress & Dual-Layer VAD",
         points: [
-          "Replaced multi-hop third-party HTTP endpoints with colocated self-hosted Docker containers on AWS EC2 GPU instances.",
-          "Implemented pipelined streaming: TTS synthesis begins streaming audio chunks before LLM completes the full sentence.",
-          "Migrated from faster-whisper (~400ms) to TensorRT-optimized NVIDIA Riva (~150ms).",
+          "Unified support for dual carrier-grade PSTN telephony trunks streaming 8kHz G.711u audio over bidirectional WebSockets.",
+          "Dual-layer voice activity detection (Scipy energy pre-filter + Silero VAD at 16kHz) with instant barge-in interruptibility that flushes playback buffers when the caller speaks.",
+          "Omnichannel accessibility supporting both real-time voice telephony trunks and asynchronous Meta WhatsApp messaging endpoints.",
         ],
       },
       {
-        heading: "2. Multilingual Telephony Optimization",
+        heading: "2. Linguistic Normalization Across 12 Indic Languages",
         points: [
-          "Standardized Exotel IVR 8kHz audio resampled in memory for Riva ASR with zero file-system writes.",
-          "Integrated IndicTrans2 with Bhashini API failover for robust Hindi and Indian English translation.",
-          "Qdrant collection isolation ensuring multi-tenant data privacy across medical and commercial clients.",
+          "Deterministic language identification with a 3-turn sliding window smoother and hysteresis margins (>0.20) to prevent loanword flapping on code-switched phrases.",
+          "Inbound NMT translates regional dialects into normalized English representations, improving dense vector retrieval recall by +40%.",
+          "Phonetic number verbalization converts numerals and dates into phonetic native script prior to neural TTS synthesis.",
+        ],
+      },
+      {
+        heading: "3. Sub-Second Streaming Inference & PagedAttention",
+        points: [
+          "TensorRT-optimized speech recognition and continuous batching with vLLM PagedAttention KV-caching ensuring zero out-of-memory errors during peak loads.",
+          "Sentence-boundary pipelining begins neural audio synthesis before the language model finishes token generation.",
+          "Zero-LLM action buffers mask external API latency, maintaining sub-2.0s conversational responsiveness without dead air.",
+        ],
+      },
+      {
+        heading: "4. Transactional Integrity & Fault Tolerance",
+        points: [
+          "Dual-tier hallucination guard enforcing completion-tool verification and verbatim confirmation readouts with zero hallucinated reference codes.",
+          "Dual-layer session flow state persistence (in-memory dict + PostgreSQL upsert) enabling seamless mid-call recovery if a worker restarts.",
+          "Asynchronous PostgreSQL outbox queue isolating the real-time audio pipeline from external CRM/CMS webhook latency spikes.",
         ],
       },
     ],
     telemetryHighlights: [
-      { label: "Telephony Protocol", value: "SIP / WebSockets (8kHz G.711u)", badge: "CARRIER_GRADE" },
-      { label: "TTS Generation Speed", value: "12x Real-Time Factor (RTF)", badge: "GPU_ACCELERATED" },
-      { label: "VLLM PagedAttention", value: "Active (Zero OOM in peak loads)", badge: "STABLE" },
+      { label: "Primary Telephony Trunks", value: "Dual Carrier Gateways (PSTN)", badge: "CARRIER_GRADE" },
+      { label: "Omnichannel Endpoints", value: "PSTN Voice + Meta WhatsApp API", badge: "DUAL_CHANNEL" },
+      { label: "Linguistic Coverage", value: "12 Indic Languages & Dialects", badge: "MULTILINGUAL" },
+      { label: "Transactional Integrity", value: "0 Hallucinated Confirmations", badge: "ZERO_HALLUCINATION" },
+    ],
+    qnaRouting: {
+      overview:
+        "To achieve sub-second conversational latency on routine inquiries without burning GPU compute or risking hallucinations, queries immediately enter a dense vector fast-path indexing pre-verified clinical and corporate FAQs in Qdrant (using BAAI/bge-m3 embeddings). Queries are routed into three strict confidence bands with deterministic emergency and transactional gates.",
+      bands: [
+        {
+          band: "Direct Band",
+          threshold: "Score ≥ 0.88 (Non-Emergency)",
+          destination: "Direct Audio Return (Bypasses LLM, NMT & RAG)",
+          latency: "~450–600ms",
+          description: "Instantly plays pre-verified audio responses directly to the telephony trunk without invocation of language models or translation layers.",
+        },
+        {
+          band: "Grounded Band",
+          threshold: "0.65 ≤ Score < 0.88 (OR Emergency Flag)",
+          destination: "Grounded LLM Synthesis (Single FAQ Context)",
+          latency: "~1100–1400ms",
+          description: "Injects a single verified FAQ chunk into the LLM context as a strict factual anchor, synthesizing natural spoken phrasing without hallucination risk.",
+        },
+        {
+          band: "Miss Band",
+          threshold: "Score < 0.65",
+          destination: "Semantic Response Cache & Agent / RAG Loop",
+          latency: "~1600–2100ms",
+          description: "Falls back to semantic response cache (Qdrant cosine ≥ 0.92) or initiates multi-turn declarative agent loop with contextual vector retrieval.",
+        },
+      ],
+      safetyOverride:
+        "High-risk clinical and obstetric danger signs bypass open-ended generation entirely. Utterances matching emergency criteria trigger deterministic grounded safety responses or immediate human escalation, strictly prohibiting loose conversational chit-chat.",
+      intentGate:
+        "An upstream intent classifier serves as a strict gateway. Transactional and scheduling intents (e.g., booking an appointment) bypass the QnA fast-path entirely regardless of similarity scores, preventing a caller seeking a doctor from colliding with a general FAQ about appointment guidelines.",
+    },
+    designDecisions: [
+      {
+        title: "Provider Factory (Self-Hosted GPU vs. Cloud API Toggle)",
+        pitch:
+          "A unified lazy-singleton provider factory enables zero-code toggling between on-premise GPU inference and cloud APIs without altering the core real-time WebSocket router.",
+        rationale:
+          "Self-hosted NVIDIA Riva and IndicTrans2 on EC2 GPUs deliver 1.5s–1.8s TTFA with zero external network hops. When cloud elasticity or specialized Indic regional dialects are needed, switching to Sarvam AI takes an environment toggle (`PIPELINE_MODE=sarvam`) while retaining identical turn-logging, VAD, and RAG logic. Lazy singletons ensure the per-turn hot path remains branch-free and sub-millisecond.",
+      },
+      {
+        title: "Declarative Flow State Machine + Intent Classification",
+        pitch:
+          "Replaced fragile procedural keyword matching with single-token LLM intent classification and declarative state machines defined as data.",
+        rationale:
+          "Keyword matching routinely broke when Indian callers politely addressed the agent as 'doctor' (a cultural greeting), triggering unwanted appointment booking routines. The single-token intent classifier features per-vertical intent scopes and flow-aware asymmetric fallback: mid-flow callers remain locked in their active booking flow, while out-of-flow queries smoothly navigate between FAQs and workflows. Separating step ordering and slot requirements into declarative schemas allows new verticals (hotel, real estate) to launch in hours without touching agent core code.",
+      },
+      {
+        title: "Action Buffers (Zero-LLM Latency Masking Across 12 Indic Languages)",
+        pitch:
+          "Pre-localized transition audio phrases dispatched immediately on tool calls eliminate perceived dead air during 2–4s external API executions.",
+        rationale:
+          "When the voice agent executes an external database query or hospital calendar lookup, callers on feature phones often assume a dropped call if there is silence for >2.5s. We engineered pre-computed localized transition phrases ('Checking available slots for you...') across all 12 supported Indic languages. Dispatched immediately via tool callbacks to the TTS engine, this masks API latency with 0ms LLM overhead and zero prompt bloat.",
+      },
+      {
+        title: "Asynchronous Outbox Queue for External CRM Synchronization",
+        pitch:
+          "Decoupled the synchronous telephony audio pipeline from external CRM/CMS webhooks using a resilient PostgreSQL transactional outbox pattern.",
+        rationale:
+          "External enterprise CRM and hospital management endpoints regularly experience p99 latency spikes of 2–5 seconds. Synchronous calls inside the telephony WebSocket handler stalled audio streaming frames and caused packet drops. The handler now commits outbox records (`crm_push_queue`) in ~2ms, while an asynchronous background worker handles polling, deduplication, and exponential backoff (up to 8 retries) to downstream CRM systems and the Meta WhatsApp API.",
+      },
+    ],
+    productionChallenges: [
+      {
+        title: "Qdrant Cosine vs. ChromaDB L2 Threshold Inversion",
+        scenario:
+          "Following a vector database migration from ChromaDB to Qdrant, callers asking basic, pre-verified clinical FAQs suddenly received 'no information found' fallbacks.",
+        rootCause:
+          "ChromaDB evaluated distance via Euclidean L2 distance (where lower values represent higher similarity, requiring `distance <= threshold`). Qdrant Cosine returns similarity scores (where higher values represent closer matches). The ported code retained `score <= 0.35`, actively rejecting every high-confidence match in the corpus.",
+        fix:
+          "Inverted the comparator to `score >= threshold` and introduced automated ascending/descending invariant assertions in continuous integration test suites.",
+      },
+      {
+        title: "The 'Doctor' Cultural Greeting False Positive",
+        scenario:
+          "Callers opening an inquiry with 'Doctor, I have a question about prenatal diet' were immediately hijacked into the appointment booking loop, which queried available physician slots.",
+        rootCause:
+          "Procedural keyword-based routing matched the word 'doctor' and tripped `use_agent=true`. In Indian conversational culture, 'doctor' or 'doctorji' is frequently used as a polite honorific address rather than a scheduling request.",
+        fix:
+          "Replaced keyword matching with single-token LLM intent classification featuring an explicit cultural addressee disambiguation guideline. This eliminated ~40% of false booking triggers in live production traffic.",
+      },
+      {
+        title: "The Hallucinated Booking Confirmation",
+        scenario:
+          "A caller asked about availability. The agent invoked `get_available_doctors`, retrieved doctor names, and immediately told the caller: 'Your appointment with Dr. Ritu Sharma is confirmed! Reference number GMS-4782'—even though `book_appointment` was never executed.",
+        rootCause:
+          "Under unconstrained auto tool selection (`tool_choice='auto'`), 7B instruction-tuned LLMs conflate read-only informational search results with finalized transactional actions, fabricating reference codes out of thin air.",
+        fix:
+          "Engineered a two-tier hallucination guard. Tier 1 scans LLM drafts for confirmation language and rejects any turn without an executed completion tool, retrying with `tool_choice='required'`. Tier 2 bypasses LLM narration on tool completion entirely, returning the verified booking payload message verbatim to the caller with zero chance of fabricated reference numbers.",
+      },
     ],
   },
   {
@@ -434,7 +582,7 @@ export const TECH_STACK: StackCategory[] = [
     items: [
       { tool: "NVIDIA Riva Speech SDK", description: "TensorRT FastConformer ASR & low-latency neural TTS", flag: "Primary tool" },
       { tool: "IndicTrans2", description: "Bidirectional Hindi ↔ English translation (1B param models)", flag: "Primary tool" },
-      { tool: "Exotel Telephony", description: "Carrier-grade PSTN trunks, SIP gateways, 8kHz µ-law streams", flag: "Primary tool" },
+      { tool: "PSTN Telephony", description: "Carrier-grade SIP trunks, telephony gateways, 8kHz µ-law streams", flag: "Primary tool" },
       { tool: "LiveKit WebRTC", description: "Full-duplex real-time WebRTC audio streaming & room agents", flag: "Primary tool" },
       { tool: "faster-whisper", description: "Quantized Whisper models for edge/fallback transcription", flag: "Comfortable" },
       { tool: "Bhashini APIs", description: "Government Indian language API gateway failover", flag: "Comfortable" },
@@ -486,7 +634,7 @@ export const EXPERIENCES: ExperienceItem[] = [
     details: [
       "One of five founding team engineers at a high-velocity government-incubated health-tech startup.",
       "Engineered contactless cardiovascular vitals pipeline using rPPG (remote photoplethysmography) to extract pulse waveforms from standard RGB cameras, achieving ~28% gain in signal stability.",
-      "Architected carrier-grade real-time Voice AI conversational pipeline streaming over Exotel PSTN telephony and WebRTC with sub-second turn latency.",
+      "Architected carrier-grade real-time Voice AI conversational pipeline streaming over carrier PSTN telephony and WebRTC with sub-second turn latency.",
       "Hardening the physiological telemetry pipeline and audit logs as the next stage advances toward CDSCO regulatory compliance.",
     ],
     metrics: [
